@@ -12,3 +12,7 @@ html {
 button {
   cursor: pointer;
 }
+
+.maplibregl-ctrl-attrib {
+  display: none !important;
+}
