@@ -9,11 +9,15 @@
   }: { logEntry: LogEntryData; expanded: boolean; toggleExpansion: () => void } = $props();
 
   let date = $derived(new Date(logEntry.isoTime));
+  // Format the entry's creation time
   let entryTime = $derived(
     date.toLocaleTimeString("fi-FI", { hour: "2-digit", minute: "2-digit" })
   );
 
   let content: HTMLDivElement | undefined;
+  // Keep track of the height of the collapsed content
+  // so the entry can be expanded to the correct max-height
+  // and the transition has the correct timing
   let contentHeight = $state(0);
   const updateContentHeight = () => {
     contentHeight = content?.scrollHeight ?? 0;

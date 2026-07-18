@@ -2,7 +2,9 @@
   import LogEntry from "$lib/components/LogEntry.svelte";
   import { logEntries, type LogEntryData } from "$lib/data";
 
+  // Sort entries newest first
   let sortedEntries = logEntries.sort((a, b) => Date.parse(b.isoTime) - Date.parse(a.isoTime));
+  // Group entries by their date into an object, using formatted dates as keys
   let groupedEntries = sortedEntries.reduce((entries: Record<string, LogEntryData[]>, entry) => {
     const key = new Date(entry.isoTime).toLocaleDateString("fi-FI", {
       day: "numeric",
@@ -15,6 +17,7 @@
     return entries;
   }, {});
 
+  // Only one entry should be expanded at a time: expanding another one collapses the previous one
   let expandedEntryId: string | undefined = $state();
 </script>
 

@@ -1,5 +1,5 @@
 <script lang="ts">
-  // https://movingicons.dev
+  // Source: https://movingicons.dev
 
   interface IconProps {
     color?: string;
