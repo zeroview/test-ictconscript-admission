@@ -32,7 +32,7 @@
 >
   <div class="mx-4 my-3">
     <button class="flex w-full justify-between" onclick={toggleExpansion}>
-      <h3 class="font-mono w-fit text-start font-bold text-xl">
+      <h3 class="w-fit text-start font-bold text-xl">
         {entryTime + " - " + logEntry.title}
       </h3>
       <ChevronDown
@@ -44,7 +44,7 @@
       class={"overflow-hidden w-fit transition-[max-height]"}
       style={"max-height: " + (expanded ? contentHeight : 0) + "px;"}
     >
-      <p class="font-mono whitespace-pre-line">{logEntry.body}</p>
+      <p class="whitespace-pre-line">{logEntry.body}</p>
     </div>
   </div>
 </div>

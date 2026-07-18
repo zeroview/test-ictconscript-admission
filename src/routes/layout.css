@@ -1,1 +1,10 @@
 @import "tailwindcss";
+
+html {
+  overflow-y: scroll;
+  font-family: var(--font-mono);
+}
+
+button {
+  cursor: pointer;
+}

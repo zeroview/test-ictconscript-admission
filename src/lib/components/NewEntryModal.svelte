@@ -1,0 +1,86 @@
+<script lang="ts">
+  import { XIcon } from "@lucide/svelte";
+  import { type LogEntryData } from "$lib/data";
+  import flatpickr from "flatpickr";
+  import "$lib/flatpickr.css";
+  import { onMount } from "svelte";
+  type NewLogEntryData = Omit<LogEntryData, "id">;
+
+  let {
+    onclose,
+    onsubmit
+  }: { onclose: () => void; onsubmit: (newLogEntryData: NewLogEntryData) => void } = $props();
+
+  let dateInput: HTMLInputElement | undefined = $state();
+  let timeInput: HTMLInputElement | undefined = $state();
+  let title = $state("");
+  let body = $state("");
+
+  let canBeSubmitted = $derived(title !== "");
+
+  const submit = () => {
+    if (!dateInput || !timeInput) {
+      return;
+    }
+    let data: NewLogEntryData = {
+      title,
+      body,
+      isoTime: new Date(`${dateInput.value}T${timeInput.value}`).toISOString(),
+      lat: null,
+      lon: null
+    };
+    console.log(data);
+    onsubmit(data);
+  };
+
+  onMount(() => {
+    if (dateInput) {
+      flatpickr(dateInput, { defaultDate: Date.now(), altInput: true, altFormat: "j F, Y" });
+    }
+    if (timeInput) {
+      flatpickr(timeInput, {
+        defaultDate: Date.now(),
+        enableTime: true,
+        noCalendar: true,
+        time_24hr: true
+      });
+    }
+  });
+</script>
+
+<div class="max-w-2xl relative min-w-xl p-4 bg-white h-fit rounded-md">
+  <h2 class="font-bold mb-4 text-xl text-center">Add new log entry</h2>
+  <form class="grid grid-cols-[6rem_1fr] gap-y-3">
+    <label for="date" class="font-semibold">Date:</label>
+    <input type="text" id="date" class="cursor-pointer" bind:this={dateInput} />
+    <label for="time" class="font-semibold">Time:</label>
+    <input type="text" id="time" class="cursor-pointer" bind:this={timeInput} />
+    <label for="title" class="font-semibold">Title:</label>
+    <input
+      type="text"
+      id="title"
+      bind:value={title}
+      class="rounded-md px-2 border-2 border-slate-400"
+    />
+    <label for="body" class="font-semibold">Body:</label>
+    <textarea
+      id="body"
+      bind:value={body}
+      rows="4"
+      class="rounded-md px-2 border-2 border-slate-400 resize-none"></textarea>
+    <div class="flex w-full col-span-2 gap-2 justify-end">
+      <button
+        class="rounded-md px-2 py-1 border-2 border-slate-500 disabled:border-slate-300 disabled:text-gray-400"
+        onclick={onclose}>Cancel</button
+      >
+      <button
+        class="rounded-md px-2 py-1 border-2 border-slate-500 disabled:border-slate-300 disabled:text-gray-400"
+        onclick={submit}
+        disabled={!canBeSubmitted}>Submit</button
+      >
+    </div>
+  </form>
+  <button class="absolute top-4 right-4" onclick={onclose}>
+    <XIcon class="size-4" />
+  </button>
+</div>
