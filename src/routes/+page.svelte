@@ -16,7 +16,8 @@
     sortedEntries.reduce((entries: Record<string, LogEntryData[]>, entry) => {
       const key = new Date(entry.isoTime).toLocaleDateString("fi-FI", {
         day: "numeric",
-        month: "numeric"
+        month: "numeric",
+        year: "numeric"
       });
       if (!entries[key]) {
         entries[key] = [];
