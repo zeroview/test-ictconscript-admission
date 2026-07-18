@@ -14,6 +14,8 @@
     entries[key].push(entry);
     return entries;
   }, {});
+
+  let expandedEntryId: string | undefined = $state();
 </script>
 
 <div class="fixed flex w-full align-center items-center justify-center top-0 h-20 z-5">
@@ -24,7 +26,13 @@
   {#each Object.keys(groupedEntries) as date}
     <h2 class="text-white font-extrabold font-mono text-3xl">{date}</h2>
     {#each groupedEntries[date] as logEntry (logEntry.id)}
-      <LogEntry {logEntry} />
+      <LogEntry
+        {logEntry}
+        expanded={expandedEntryId === logEntry.id}
+        toggleExpansion={() => {
+          expandedEntryId = expandedEntryId === logEntry.id ? undefined : logEntry.id;
+        }}
+      />
     {/each}
   {/each}
 </div>
