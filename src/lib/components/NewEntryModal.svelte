@@ -4,6 +4,7 @@
   import flatpickr from "flatpickr";
   import "$lib/flatpickr.css";
   import { onMount } from "svelte";
+  import { formatDMS } from "$lib/dms";
   type NewLogEntryData = Omit<LogEntryData, "id">;
 
   let {
@@ -15,8 +16,13 @@
   let timeInput: HTMLInputElement | undefined = $state();
   let title = $state("");
   let body = $state("");
-  let lat = $state(null);
-  let lon = $state(null);
+
+  let lat: number | null = $state(null);
+  let latFocused = $state(false);
+  let latLabel = $derived(lat ? formatDMS(lat, "lat") : "");
+  let lon: number | null = $state(null);
+  let lonFocused = $state(false);
+  let lonLabel = $derived(lon ? formatDMS(lon, "lon") : "");
 
   let canBeSubmitted = $derived(title !== "");
 
@@ -78,19 +84,29 @@
     <div class="flex gap-2" id="location">
       <label for="lat">Latitude:</label>
       <input
-        type="number"
+        type={latFocused ? "number" : "text"}
+        value={latFocused ? lat : latLabel}
         step="any"
+        max="90"
+        min="-90"
         id="lat"
-        class="rounded-md w-30 px-2 border-2 border-neutral-400 col-span-2 xs:col-span-1"
-        bind:value={lat}
+        onfocus={() => (latFocused = true)}
+        onblur={() => (latFocused = false)}
+        onchange={(e) => (lat = Number(e.currentTarget.value))}
+        class="rounded-md w-35 px-2 border-2 border-neutral-400 col-span-2 xs:col-span-1"
       />
       <label for="lon" class="ml-10">Longitude:</label>
       <input
-        type="number"
+        type={lonFocused ? "number" : "text"}
+        value={lonFocused ? lon : lonLabel}
         step="any"
+        max="180"
+        min="-180"
         id="lon"
-        class="rounded-md w-30 px-2 border-2 border-neutral-400 col-span-2 xs:col-span-1"
-        bind:value={lon}
+        onfocus={() => (lonFocused = true)}
+        onblur={() => (lonFocused = false)}
+        onchange={(e) => (lon = Number(e.currentTarget.value))}
+        class="rounded-md w-35 px-2 border-2 border-neutral-400 col-span-2 xs:col-span-1"
       />
     </div>
 
