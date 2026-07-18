@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+@theme {
+  --breakpoint-xs: 30rem;
+}
+
 html {
   overflow-y: scroll;
   font-family: var(--font-mono);
