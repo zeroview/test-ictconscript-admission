@@ -1,6 +1,7 @@
 <script lang="ts">
   import ChevronDown from "./ChevronDown.svelte";
   import { type LogEntryData } from "$lib/data";
+  import { onMount } from "svelte";
   let {
     logEntry,
     expanded,
@@ -12,9 +13,15 @@
     date.toLocaleTimeString(undefined, { hour: "2-digit", minute: "2-digit" })
   );
 
-  let content: HTMLDivElement | undefined = $state();
-  let contentHeight = $derived(content?.scrollHeight);
+  let content: HTMLDivElement | undefined;
+  let contentHeight = $state(0);
+  const updateContentHeight = () => {
+    contentHeight = content?.scrollHeight ?? 0;
+  };
+  onMount(updateContentHeight);
 </script>
+
+<svelte:window onresize={updateContentHeight} />
 
 <div
   class={"rounded-lg mb-4 relative transition-[height] duration-300 border-2  border-slate-400 bg-green-50/80 backdrop-blur-sm"}
@@ -30,8 +37,8 @@
     </button>
     <div
       bind:this={content}
-      class={"overflow-hidden w-fit transition-[height]"}
-      style={"height: " + (expanded ? contentHeight : 0) + "px;"}
+      class={"overflow-hidden w-fit transition-[max-height]"}
+      style={"max-height: " + (expanded ? contentHeight : 0) + "px;"}
     >
       <p class="font-mono whitespace-pre-line">{logEntry.body}</p>
     </div>
