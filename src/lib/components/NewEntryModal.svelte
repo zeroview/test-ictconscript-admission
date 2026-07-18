@@ -48,8 +48,8 @@
   });
 </script>
 
-<div class="mx-8 sm:mx-16 w-2xl relative p-4 bg-white h-fit rounded-md">
-  <h2 class="font-bold mb-4 text-xl text-center">New log entry</h2>
+<div class="mx-8 sm:mx-16 w-2xl relative p-4 bg-green-50/100 h-fit rounded-2xl">
+  <h2 class="font-bold mb-4 text-2xl text-center">New log entry</h2>
   <form class="grid grid-cols-[6rem_1fr] gap-y-3">
     <label for="date" class="font-semibold">Date:</label>
     <input type="text" id="date" class="cursor-pointer" bind:this={dateInput} />
@@ -60,28 +60,28 @@
       type="text"
       id="title"
       bind:value={title}
-      class="rounded-md px-2 border-2 border-slate-400 col-span-2 xs:col-span-1"
+      class="rounded-md px-2 border-2 border-neutral-400 col-span-2 xs:col-span-1"
     />
-    <label for="body" class="font-semibold col-span-2 xs:col-span-1">Body:</label>
+    <label for="body" class="font-bold col-span-2 xs:col-span-1">Body:</label>
     <textarea
       id="body"
       bind:value={body}
       rows="6"
-      class="rounded-md px-2 border-2 border-slate-400 resize-none col-span-2 xs:col-span-1"
+      class="rounded-md px-2 border-2 border-neutral-400 resize-none col-span-2 xs:col-span-1"
     ></textarea>
     <div class="flex w-full col-span-2 gap-2 justify-end">
       <button
-        class="rounded-md px-2 py-1 border-2 border-slate-500 disabled:border-slate-300 disabled:text-gray-400"
+        class="rounded-md px-2 py-1 border-2 border-neutral-500 disabled:border-neutral-300 disabled:text-gray-400"
         onclick={onclose}>Cancel</button
       >
       <button
-        class="rounded-md px-2 py-1 border-2 border-slate-500 disabled:border-slate-300 disabled:text-gray-400"
+        class="rounded-md px-2 py-1 border-2 text-white bg-neutral-500 disabled:bg-neutral-300 border-neutral-500 disabled:border-neutral-300"
         onclick={submit}
         disabled={!canBeSubmitted}>Submit</button
       >
     </div>
   </form>
   <button class="absolute top-4 right-4" onclick={onclose}>
-    <XIcon class="size-4" />
+    <XIcon class="size-5 transition-transform hover:scale-110" />
   </button>
 </div>

@@ -1,6 +1,6 @@
 <script lang="ts">
-  import ChevronDown from "./ChevronDown.svelte";
   import { type LogEntryData } from "$lib/data";
+  import { ChevronDownIcon } from "@lucide/svelte";
   import { onMount } from "svelte";
   let {
     logEntry,
@@ -28,15 +28,15 @@
 <svelte:window onresize={updateContentHeight} />
 
 <div
-  class={"rounded-lg mb-4 relative transition-[height] duration-300 border-2  border-slate-400 bg-green-50/80 backdrop-blur-sm"}
+  class={"rounded-lg mb-4 relative transition-[height] duration-300 border-2 border-neutral-400 bg-green-50/80 backdrop-blur-sm"}
 >
   <div class="mx-4 my-3">
-    <button class="flex w-full justify-between" onclick={toggleExpansion}>
+    <button class="flex w-full justify-between group" onclick={toggleExpansion}>
       <h3 class="w-fit text-start font-bold text-xl">
         {entryTime + " - " + logEntry.title}
       </h3>
-      <ChevronDown
-        class={"transition-transform h-fit duration-300 " + (expanded ? "rotate-180" : "")}
+      <ChevronDownIcon
+        class={`transition-transform h-fit duration-300 ${expanded ? "rotate-180 group-hover:-translate-y-1" : "group-hover:translate-y-1"}`}
       />
     </button>
     <div
