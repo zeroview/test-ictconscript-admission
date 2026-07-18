@@ -4,7 +4,7 @@
 
   let sortedEntries = logEntries.sort((a, b) => Date.parse(b.isoTime) - Date.parse(a.isoTime));
   let groupedEntries = sortedEntries.reduce((entries: Record<string, LogEntryData[]>, entry) => {
-    const key = new Date(entry.isoTime).toLocaleDateString(undefined, {
+    const key = new Date(entry.isoTime).toLocaleDateString("fi-FI", {
       day: "numeric",
       month: "numeric"
     });

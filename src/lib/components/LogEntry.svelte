@@ -10,7 +10,7 @@
 
   let date = $derived(new Date(logEntry.isoTime));
   let entryTime = $derived(
-    date.toLocaleTimeString(undefined, { hour: "2-digit", minute: "2-digit" })
+    date.toLocaleTimeString("fi-FI", { hour: "2-digit", minute: "2-digit" })
   );
 
   let content: HTMLDivElement | undefined;
