@@ -1,23 +1,30 @@
 <script lang="ts">
-	import SampleData from '../../sample-data/data.json';
-	type FieldEventData = {
-		id: string;
-		title: string;
-		body: string;
-		isoTime: string;
-		lat: number | null;
-		lon: number | null;
-	};
+  import LogEntry from "$lib/components/LogEntry.svelte";
+  import { logEntries, type LogEntryData } from "$lib/data";
 
-	let eventData: FieldEventData[] = $state(SampleData);
+  let sortedEntries = logEntries.sort((a, b) => Date.parse(b.isoTime) - Date.parse(a.isoTime));
+  let groupedEntries = sortedEntries.reduce((entries: Record<string, LogEntryData[]>, entry) => {
+    const key = new Date(entry.isoTime).toLocaleDateString(undefined, {
+      day: "numeric",
+      month: "numeric"
+    });
+    if (!entries[key]) {
+      entries[key] = [];
+    }
+    entries[key].push(entry);
+    return entries;
+  }, {});
 </script>
 
-<h1 class="text-center w-full mb-8 mt-8 font-black font-mono text-4xl underline">UNIT LOGBOOK</h1>
-<div class="m-auto w-2xl mt-4 gap-2">
-	{#each eventData as event (event.id)}
-		<div class="p-4 rounded-xl mb-4 border-2 border-slate-500 bg-slate-200">
-			<h2 class="font-bold text-lg">{event.title}</h2>
-			<p>{event.body}</p>
-		</div>
-	{/each}
+<div class="fixed flex w-full align-center items-center justify-center top-0 h-20 z-5">
+  <h1 class="text-center text-4xl font-mono font-black text-white underline">Unit Logbook</h1>
+</div>
+
+<div class="m-auto max-w-4xl mt-25 gap-2 px-6">
+  {#each Object.keys(groupedEntries) as date}
+    <h2 class="text-white font-extrabold font-mono text-3xl">{date}</h2>
+    {#each groupedEntries[date] as logEntry (logEntry.id)}
+      <LogEntry {logEntry} />
+    {/each}
+  {/each}
 </div>
