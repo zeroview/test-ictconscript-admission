@@ -48,12 +48,15 @@
 {/if}
 
 <div class="m-auto max-w-4xl mt-5 gap-2 px-6">
-  <div class="flex justify-between mb-8 items-center">
-    <h1 class="text-4xl font-black text-white underline w-min xs:w-auto">Unit Logbook</h1>
+  <div class="flex justify-between gap-4 mb-8 items-center">
+    <h1 class="text-4xl font-black text-white underline">Unit Logbook</h1>
     <button
       onclick={() => (newEntryModalOpen = true)}
       class="inline-flex text-2xl text-start gap-2 text-black items-center group mr-1 bg-green-50/80 p-2 hover:bg-green-50/90 rounded-md transition-colors backdrop-blur-sm"
-      ><PlusIcon class="size-8 mb-1 group-hover:scale-110 transition-transform" />New entry</button
+      ><PlusIcon
+        class="xs:size-8 size-10 mb-0 xs:mb-1 group-hover:scale-110 aspect-square transition-transform"
+      />
+      <p class="hidden xs:block">New entry</p></button
     >
   </div>
   {#each Object.keys(groupedEntries) as date}
