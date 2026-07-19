@@ -52,9 +52,9 @@
     >
       <p class="whitespace-pre-line">{logEntry.body}</p>
       {#if lnglat}
-        <div class="sm:aspect-square relative w-full sm:h-full h-50 rounded-md">
+        <div class="sm:aspect-square relative w-full sm:h-full h-50">
           <MapLibre
-            class="size-full rounded-md cursor-pointer"
+            class="size-full rounded-lg cursor-pointer"
             zoom={12}
             style={{
               version: 8,
@@ -78,7 +78,7 @@
             <Marker {lnglat}></Marker>
           </MapLibre>
           <p
-            class="whitespace-pre-line absolute bottom-0 drop-shadow-xs text-center font-mono w-full bg-green-50/70"
+            class="whitespace-pre-line absolute bottom-0 drop-shadow-xs text-center rounded-b-lg font-mono w-full bg-green-50/70"
           >
             {`${formatDMS(lnglat.lat, "lat")} ${formatDMS(lnglat.lng, "lon")}`}
           </p>

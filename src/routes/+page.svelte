@@ -53,7 +53,7 @@
     <button
       onclick={() => (newEntryModalOpen = true)}
       class="inline-flex text-2xl text-start gap-2 text-black items-center group mr-1 bg-green-50/80 p-2 hover:bg-green-50/90 rounded-md transition-colors backdrop-blur-sm"
-      ><PlusIcon class="size-8 mt-0.5 group-hover:scale-110 transition-transform" />New entry</button
+      ><PlusIcon class="size-8 mb-1 group-hover:scale-110 transition-transform" />New entry</button
     >
   </div>
   {#each Object.keys(groupedEntries) as date}
