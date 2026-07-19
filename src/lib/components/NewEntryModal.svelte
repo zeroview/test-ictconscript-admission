@@ -59,30 +59,29 @@
 <div class="mx-8 sm:mx-16 w-2xl relative p-4 bg-green-50 h-fit rounded-2xl">
   <h2 class="font-bold mb-4 text-2xl text-center">New log entry</h2>
 
-  <form class="grid grid-cols-[6rem_1fr] gap-y-3">
+  <form class="grid grid-cols-[7rem_1fr] gap-y-3">
     <label for="date" class="font-semibold">Date:</label>
     <input type="text" id="date" class="cursor-pointer" bind:this={dateInput} />
     <label for="time" class="font-semibold">Time:</label>
     <input type="text" id="time" class="cursor-pointer" bind:this={timeInput} />
 
-    <label for="title" class="font-semibold col-span-2 xs:col-span-1">Title:</label>
+    <label for="title" class="font-semibold col-span-2 sm:col-span-1">Title:</label>
     <input
       type="text"
       id="title"
       bind:value={title}
-      class="rounded-md px-2 border-2 border-neutral-400 col-span-2 xs:col-span-1"
+      class="rounded-md px-2 border-2 border-neutral-400 col-span-2 sm:col-span-1"
     />
-    <label for="body" class="font-bold col-span-2 xs:col-span-1">Body:</label>
+    <label for="body" class="font-bold col-span-2 sm:col-span-1">Body:</label>
     <textarea
       id="body"
       bind:value={body}
       rows="6"
-      class="rounded-md px-2 border-2 border-neutral-400 resize-none col-span-2 xs:col-span-1"
+      class="rounded-md px-2 border-2 border-neutral-400 resize-none col-span-2 sm:col-span-1"
     ></textarea>
 
-    <label for="location" class="font-bold col-span-2 xs:col-span-1">Location:</label>
-    <div class="flex gap-2" id="location">
-      <label for="lat">Latitude:</label>
+    <div class="grid col-span-2 grid-cols-[7rem_10rem] md:grid-cols-[7rem_1fr_7rem_10rem] gap-y-3">
+      <label for="lat" class="font-bold">Latitude:</label>
       <input
         type={latFocused ? "number" : "text"}
         value={latFocused ? lat : latLabel}
@@ -92,10 +91,10 @@
         id="lat"
         onfocus={() => (latFocused = true)}
         onblur={() => (latFocused = false)}
-        onchange={(e) => (lat = Number(e.currentTarget.value))}
-        class="rounded-md w-35 px-2 border-2 border-neutral-400 col-span-2 xs:col-span-1"
+        onchange={(e) => (lat = Math.min(Math.max(Number(e.currentTarget.value), -90), 90))}
+        class="rounded-md w-40 px-2 border-2 border-neutral-400"
       />
-      <label for="lon" class="ml-10">Longitude:</label>
+      <label for="lon" class="font-bold">Longitude:</label>
       <input
         type={lonFocused ? "number" : "text"}
         value={lonFocused ? lon : lonLabel}
@@ -105,8 +104,8 @@
         id="lon"
         onfocus={() => (lonFocused = true)}
         onblur={() => (lonFocused = false)}
-        onchange={(e) => (lon = Number(e.currentTarget.value))}
-        class="rounded-md w-35 px-2 border-2 border-neutral-400 col-span-2 xs:col-span-1"
+        onchange={(e) => (lon = Math.min(Math.max(Number(e.currentTarget.value), -180), 180))}
+        class="rounded-md w-40 px-2 border-2 border-neutral-400"
       />
     </div>
 
