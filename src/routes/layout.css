@@ -7,6 +7,9 @@
 html {
   overflow-y: scroll;
   font-family: var(--font-mono);
+  background-image: url("/m05.webp");
+  background-attachment: fixed;
+  background-size: cover;
 }
 
 button {
