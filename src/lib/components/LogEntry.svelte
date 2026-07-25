@@ -85,12 +85,12 @@
           {#if mapVisible}
             <!-- The minimap uses Google's satellite images -->
             <MapLibre
-              class="size-full rounded-lg cursor-pointer"
+              class="size-full rounded-lg"
               zoom={12}
               style={{
                 version: 8,
                 sources: {
-                  "raster-tiles": {
+                  "satellite-tiles": {
                     type: "raster",
                     tiles: [
                       "https://mt0.google.com/vt/lyrs=s&x={x}&y={y}&z={z}",
@@ -99,9 +99,22 @@
                       "https://mt3.google.com/vt/lyrs=s&x={x}&y={y}&z={z}"
                     ],
                     tileSize: 256
+                  },
+                  "label-tiles": {
+                    type: "raster",
+                    tiles: [
+                      "https://mt0.google.com/vt/lyrs=h&x={x}&y={y}&z={z}",
+                      "https://mt1.google.com/vt/lyrs=h&x={x}&y={y}&z={z}",
+                      "https://mt2.google.com/vt/lyrs=h&x={x}&y={y}&z={z}",
+                      "https://mt3.google.com/vt/lyrs=h&x={x}&y={y}&z={z}"
+                    ],
+                    tileSize: 256
                   }
                 },
-                layers: [{ id: "raster-layer", type: "raster", source: "raster-tiles" }]
+                layers: [
+                  { id: "satellite-layer", type: "raster", source: "satellite-tiles" },
+                  { id: "label-layer", type: "raster", source: "label-tiles" }
+                ]
               }}
               center={coordinates}
             >
