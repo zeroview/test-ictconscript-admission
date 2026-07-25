@@ -55,10 +55,11 @@
     const { default: flatpickr } = await import("flatpickr");
     await import("$lib/flatpickr.css");
 
+    const currentDate = new Date(Date.now()).setSeconds(0);
     // Use flatpickr for the date and time inputs for an actually good UI
     if (dateInput) {
       flatpickr(dateInput, {
-        defaultDate: Date.now(),
+        defaultDate: currentDate,
         altInput: true,
         altFormat: "j F, Y",
         appendTo: dialog,
@@ -67,7 +68,7 @@
     }
     if (timeInput) {
       flatpickr(timeInput, {
-        defaultDate: Date.now(),
+        defaultDate: currentDate,
         enableTime: true,
         noCalendar: true,
         time_24hr: true,
