@@ -83,7 +83,8 @@
       <div class="sm:aspect-square relative w-full sm:h-full h-50">
         {#await import("svelte-maplibre-gl") then { MapLibre, Marker }}
           {#if mapVisible}
-            <!-- The minimap uses Google's satellite images -->
+            <!-- The minimap uses satellite images and location labels from Google Maps-->
+            <!-- The endpoint is not officially supported/documented by Google but works for this prototype -->
             <MapLibre
               class="size-full rounded-lg"
               zoom={12}
