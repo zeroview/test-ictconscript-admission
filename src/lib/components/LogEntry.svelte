@@ -57,11 +57,11 @@
   <div
     bind:this={details}
     id={`entry-${logEntry.id}-details`}
-    class={`overflow-y-hidden transition-[max-height_margin-bottom] grid gap-4 sm:grid-cols-[1fr_16rem] grid-cols-1 px-4`}
+    class="overflow-y-hidden transition-[max-height_margin-bottom] grid gap-4 sm:grid-cols-[1fr_16rem] grid-cols-1 px-4"
     style={`max-height: ${expanded ? contentHeight : 0}px; margin-bottom: ${expanded ? 1 : 0}rem;`}
     inert={!expanded}
   >
-    <p class="whitespace-pre-line">{logEntry.body}</p>
+    <p class={`whitespace-pre-line ${!coordinates ? "col-span-2" : ""}`}>{logEntry.body}</p>
     {#if coordinates}
       <div class="sm:aspect-square relative w-full sm:h-full h-50">
         {#await import("svelte-maplibre-gl") then { MapLibre, Marker }}
