@@ -31,12 +31,16 @@
   let newEntryModalOpen = $state(false);
 </script>
 
-<NewEntryModal
-  bind:open={newEntryModalOpen}
-  onsubmit={(data) => {
-    logEntries.push({ id: crypto.randomUUID(), ...data });
-  }}
-/>
+<!-- Wrap modal in an if block so it unloads when hidden -->
+{#if newEntryModalOpen}
+  <NewEntryModal
+    bind:open={newEntryModalOpen}
+    onsubmit={(data) => {
+      // Create an UUID for the id of new log entries
+      logEntries.push({ id: crypto.randomUUID(), ...data });
+    }}
+  />
+{/if}
 
 <main class="m-auto max-w-4xl mt-5 gap-2 px-6">
   <header class="flex justify-between gap-4 mb-8 items-center">

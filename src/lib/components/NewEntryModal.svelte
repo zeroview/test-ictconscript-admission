@@ -64,6 +64,7 @@
         noCalendar: true,
         time_24hr: true,
         appendTo: dialog,
+        minuteIncrement: 1,
         static: true
       });
     }
