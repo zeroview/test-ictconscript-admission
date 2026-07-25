@@ -6,9 +6,14 @@
   type NewLogEntryData = Omit<LogEntryData, "id">;
 
   let {
-    onclose,
+    open = $bindable(false),
     onsubmit
-  }: { onclose: () => void; onsubmit: (newLogEntryData: NewLogEntryData) => void } = $props();
+  }: { open: boolean; onsubmit: (newLogEntryData: NewLogEntryData) => void } = $props();
+
+  let dialog: HTMLDialogElement | undefined = $state();
+  $effect(() => {
+    if (open) dialog?.showModal();
+  });
 
   let dateInput: HTMLInputElement | undefined = $state();
   let timeInput: HTMLInputElement | undefined = $state();
@@ -44,23 +49,42 @@
     const { default: flatpickr } = await import("flatpickr");
     await import("$lib/flatpickr.css");
     if (dateInput) {
-      flatpickr(dateInput, { defaultDate: Date.now(), altInput: true, altFormat: "j F, Y" });
+      flatpickr(dateInput, {
+        defaultDate: Date.now(),
+        altInput: true,
+        altFormat: "j F, Y",
+        appendTo: dialog,
+        static: true
+      });
     }
     if (timeInput) {
       flatpickr(timeInput, {
         defaultDate: Date.now(),
         enableTime: true,
         noCalendar: true,
-        time_24hr: true
+        time_24hr: true,
+        appendTo: dialog,
+        static: true
       });
     }
   });
 </script>
 
-<aside class="mx-8 sm:mx-16 w-2xl relative p-4 bg-green-50 h-fit rounded-2xl">
+<dialog
+  bind:this={dialog}
+  onclose={() => (open = false)}
+  aria-label="New log entry"
+  id="new-entry-modal"
+  class="w-2xl relative p-4 bg-green-50 h-fit rounded-2xl m-auto backdrop:bg-black/40 backdrop:backdrop-blur-sm"
+>
   <h2 class="font-bold mb-4 text-2xl text-center">New log entry</h2>
 
-  <form class="grid grid-cols-[7rem_1fr] gap-y-3" onsubmit={submit}>
+  <button class="absolute top-4 right-4" type="button" onclick={() => dialog?.close()} autofocus>
+    <XIcon class="size-5 transition-transform hover:scale-110" />
+    <p class="sr-only">Cancel</p>
+  </button>
+
+  <form class="grid grid-cols-[7rem_1fr] gap-y-3" onsubmit={submit} method="dialog">
     <label for="date" class="font-semibold">Date:</label>
     <input type="text" id="date" required class="cursor-pointer" bind:this={dateInput} />
     <label for="time" class="font-semibold">Time:</label>
@@ -116,7 +140,7 @@
       <button
         class="rounded-md px-2 py-1 border-2 border-neutral-500 disabled:border-neutral-300 disabled:text-gray-400"
         type="button"
-        onclick={onclose}>Cancel</button
+        onclick={() => dialog?.close()}>Cancel</button
       >
       <button
         type="submit"
@@ -125,8 +149,4 @@
       >
     </div>
   </form>
-
-  <button class="absolute top-4 right-4" onclick={onclose}>
-    <XIcon class="size-5 transition-transform hover:scale-110" />
-  </button>
-</aside>
+</dialog>
