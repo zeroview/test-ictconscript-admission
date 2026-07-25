@@ -9,6 +9,13 @@
     toggleExpansion
   }: { logEntry: LogEntryData; expanded: boolean; toggleExpansion: () => void } = $props();
 
+  let mapVisible = $state(false);
+  $effect(() => {
+    if (expanded) {
+      mapVisible = true;
+    }
+  });
+
   let date = $derived(new Date(logEntry.isoTime));
   // Format the entry's creation time
   let entryTime = $derived(
@@ -33,7 +40,7 @@
 <svelte:window onresize={updateContentHeight} />
 
 <article
-  class={"rounded-lg mb-4 relative transition-[height] duration-300 border-2 border-neutral-400 bg-green-50/80 backdrop-blur-sm"}
+  class={"rounded-lg mb-4 relative border-2 border-neutral-400 bg-green-50/80 backdrop-blur-sm"}
 >
   <h3 class="font-bold text-xl">
     <button
@@ -57,15 +64,20 @@
   <div
     bind:this={details}
     id={`entry-${logEntry.id}-details`}
-    class="overflow-y-hidden transition-[max-height_margin-bottom] grid gap-4 sm:grid-cols-[1fr_16rem] grid-cols-1 px-4"
+    class="overflow-y-hidden transition-[max-height_margin-bottom] duration-200 grid gap-4 sm:grid-cols-[1fr_16rem] grid-cols-1 px-4"
     style={`max-height: ${expanded ? contentHeight : 0}px; margin-bottom: ${expanded ? 1 : 0}rem;`}
     inert={!expanded}
+    ontransitionend={() => {
+      if (!expanded) {
+        mapVisible = false;
+      }
+    }}
   >
     <p class={`whitespace-pre-line ${!coordinates ? "col-span-2" : ""}`}>{logEntry.body}</p>
     {#if coordinates}
       <div class="sm:aspect-square relative w-full sm:h-full h-50">
         {#await import("svelte-maplibre-gl") then { MapLibre, Marker }}
-          {#if expanded}
+          {#if mapVisible}
             <MapLibre
               class="size-full rounded-lg cursor-pointer"
               zoom={12}
