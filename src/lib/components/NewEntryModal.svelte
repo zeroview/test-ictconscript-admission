@@ -1,8 +1,6 @@
 <script lang="ts">
   import { XIcon } from "@lucide/svelte";
   import { type LogEntryData } from "$lib/data";
-  import flatpickr from "flatpickr";
-  import "$lib/flatpickr.css";
   import { onMount } from "svelte";
   import { formatDMS } from "$lib/dms";
   type NewLogEntryData = Omit<LogEntryData, "id">;
@@ -42,7 +40,9 @@
     onsubmit(data);
   };
 
-  onMount(() => {
+  onMount(async () => {
+    const { default: flatpickr } = await import("flatpickr");
+    await import("$lib/flatpickr.css");
     if (dateInput) {
       flatpickr(dateInput, { defaultDate: Date.now(), altInput: true, altFormat: "j F, Y" });
     }

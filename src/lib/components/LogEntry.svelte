@@ -3,7 +3,6 @@
   import { formatDMS } from "$lib/dms";
   import { ChevronDownIcon } from "@lucide/svelte";
   import { onMount } from "svelte";
-  import { MapLibre, Marker } from "svelte-maplibre-gl";
   let {
     logEntry,
     expanded,
@@ -52,30 +51,33 @@
     <p class="whitespace-pre-line">{logEntry.body}</p>
     {#if lnglat}
       <div class="sm:aspect-square relative w-full sm:h-full h-50">
-        <MapLibre
-          class="size-full rounded-lg cursor-pointer"
-          zoom={12}
-          style={{
-            version: 8,
-            sources: {
-              "raster-tiles": {
-                type: "raster",
-                tiles: [
-                  "https://mt0.google.com/vt/lyrs=s&x={x}&y={y}&z={z}",
-                  "https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}",
-                  "https://mt2.google.com/vt/lyrs=s&x={x}&y={y}&z={z}",
-                  "https://mt3.google.com/vt/lyrs=s&x={x}&y={y}&z={z}"
-                ],
-                tileSize: 256
-              }
-            },
-            layers: [{ id: "raster-layer", type: "raster", source: "raster-tiles" }]
-          }}
-          center={lnglat}
-          interactive={false}
-        >
-          <Marker {lnglat}></Marker>
-        </MapLibre>
+        {#await import("svelte-maplibre-gl") then { MapLibre, Marker }}
+          {#if expanded}
+            <MapLibre
+              class="size-full rounded-lg cursor-pointer"
+              zoom={12}
+              style={{
+                version: 8,
+                sources: {
+                  "raster-tiles": {
+                    type: "raster",
+                    tiles: [
+                      "https://mt0.google.com/vt/lyrs=s&x={x}&y={y}&z={z}",
+                      "https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}",
+                      "https://mt2.google.com/vt/lyrs=s&x={x}&y={y}&z={z}",
+                      "https://mt3.google.com/vt/lyrs=s&x={x}&y={y}&z={z}"
+                    ],
+                    tileSize: 256
+                  }
+                },
+                layers: [{ id: "raster-layer", type: "raster", source: "raster-tiles" }]
+              }}
+              center={lnglat}
+            >
+              <Marker {lnglat}></Marker>
+            </MapLibre>
+          {/if}
+        {/await}
         <p
           class="whitespace-pre-line absolute bottom-0 drop-shadow-xs text-center rounded-b-lg font-mono w-full bg-green-50/70"
         >
