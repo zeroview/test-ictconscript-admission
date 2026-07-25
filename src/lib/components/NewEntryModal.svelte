@@ -94,12 +94,12 @@
   </button>
 
   <form class="grid grid-cols-[7rem_1fr] gap-y-3" onsubmit={submit} method="dialog">
-    <label for="date" class="font-semibold">Date:</label>
+    <label for="date" class="font-bold">Date:</label>
     <input type="text" id="date" required class="cursor-pointer" bind:this={dateInput} />
-    <label for="time" class="font-semibold">Time:</label>
+    <label for="time" class="font-bold">Time:</label>
     <input type="text" id="time" required class="cursor-pointer" bind:this={timeInput} />
 
-    <label for="title" class="font-semibold col-span-2 sm:col-span-1">Title:</label>
+    <label for="title" class="font-bold col-span-2 sm:col-span-1">Title:</label>
     <input
       type="text"
       id="title"
