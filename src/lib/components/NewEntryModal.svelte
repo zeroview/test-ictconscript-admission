@@ -12,6 +12,7 @@
 
   let dialog: HTMLDialogElement | undefined = $state();
   $effect(() => {
+    // Show dialog when state is changed from the parent component
     if (open) dialog?.showModal();
   });
 
@@ -21,20 +22,25 @@
   let body = $state("");
 
   let lat: number | null = $state(null);
-  let latFocused = $state(false);
-  let latLabel = $derived(lat ? formatDMS(lat, "lat") : "");
   let lon: number | null = $state(null);
+  // When unfocused, the coordinate input fields turn into text fields with formatted coordinates
+  // Focusing turns them into regular number fields for inputting decimal values
+  let latFocused = $state(false);
   let lonFocused = $state(false);
+  let latLabel = $derived(lat ? formatDMS(lat, "lat") : "");
   let lonLabel = $derived(lon ? formatDMS(lon, "lon") : "");
 
+  // Don't allow submitting if title or body are just whitespace
+  // Latitude and longitude fields are optional
   let canBeSubmitted = $derived(title.trim() !== "" && body.trim() !== "");
 
   const submit = (e: SubmitEvent) => {
-    console.log("submitted");
+    // Prevent closing dialog by default if submitting isn't allowed
     if (!dateInput || !timeInput || !canBeSubmitted) {
       e.preventDefault();
       return;
     }
+    // Trim strings and construct ISO time string
     let data: NewLogEntryData = {
       title: title.trim(),
       body: body.trim(),
@@ -48,6 +54,8 @@
   onMount(async () => {
     const { default: flatpickr } = await import("flatpickr");
     await import("$lib/flatpickr.css");
+
+    // Use flatpickr for the date and time inputs for an actually good UI
     if (dateInput) {
       flatpickr(dateInput, {
         defaultDate: Date.now(),
@@ -109,6 +117,7 @@
     ></textarea>
 
     <div class="grid col-span-2 grid-cols-[7rem_10rem] md:grid-cols-[7rem_1fr_7rem_10rem] gap-y-3">
+      <!-- Clamp the latitude and longitude fields to valid geographical coordinates -->
       <label for="lat" class="font-bold">Latitude:</label>
       <input
         type={latFocused ? "number" : "text"}

@@ -1,3 +1,5 @@
+/* Custom stylesheet for the flatpickr date and time pickers */
+
 .flatpickr-calendar {
   font-family: var(--font-mono);
   background: transparent;

@@ -48,7 +48,8 @@
     <button
       onclick={() => (newEntryModalOpen = true)}
       class="inline-flex text-2xl text-start gap-2 text-black items-center group mr-1 bg-green-50/80 p-2 hover:bg-green-50/90 rounded-md transition-colors backdrop-blur-sm"
-      ><PlusIcon
+    >
+      <PlusIcon
         class="xs:size-8 size-10 group-hover:scale-110 aspect-square transition-transform"
       />
       <p class="sr-only xs:not-sr-only">New entry</p></button

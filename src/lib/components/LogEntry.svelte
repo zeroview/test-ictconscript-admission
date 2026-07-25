@@ -9,6 +9,10 @@
     toggleExpansion
   }: { logEntry: LogEntryData; expanded: boolean; toggleExpansion: () => void } = $props();
 
+  // The minimap visibility state is set to true when the entry is expanded
+  // and to false after the collapse transition ends
+  // This keeps it visible during the collapse transition
+  // but still unloads it afterwards for performance
   let mapVisible = $state(false);
   $effect(() => {
     if (expanded) {
@@ -17,7 +21,7 @@
   });
 
   let date = $derived(new Date(logEntry.isoTime));
-  // Format the entry's creation time
+  // Format the entry's creation time in Finnish locale
   let entryTime = $derived(
     date.toLocaleTimeString("fi-FI", { hour: "2-digit", minute: "2-digit" })
   );
@@ -32,6 +36,7 @@
   };
   onMount(updateContentHeight);
 
+  // Format the coordinates into an object for maplibre
   let coordinates = $derived(
     logEntry.lon !== null && logEntry.lat !== null ? { lng: logEntry.lon, lat: logEntry.lat } : null
   );
@@ -78,6 +83,7 @@
       <div class="sm:aspect-square relative w-full sm:h-full h-50">
         {#await import("svelte-maplibre-gl") then { MapLibre, Marker }}
           {#if mapVisible}
+            <!-- The minimap uses Google's satellite images -->
             <MapLibre
               class="size-full rounded-lg cursor-pointer"
               zoom={12}
